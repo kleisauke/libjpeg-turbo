@@ -1953,6 +1953,20 @@ endif()
 
 set(EXE ${CMAKE_EXECUTABLE_SUFFIX})
 
+# Prepend prefix for includedir only if CMAKE_INSTALL_INCLUDEDIR is relative
+if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+  set(PKG_CONFIG_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}")
+else()
+  set(PKG_CONFIG_INSTALL_INCLUDEDIR "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+endif()
+
+# Prepend exec_prefix for libdir only if CMAKE_INSTALL_LIBDIR is relative
+if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+  set(PKG_CONFIG_INSTALL_LIBDIR "${CMAKE_INSTALL_LIBDIR}")
+else()
+  set(PKG_CONFIG_INSTALL_LIBDIR "\${exec_prefix}/${CMAKE_INSTALL_LIBDIR}")
+endif()
+
 if(WITH_TURBOJPEG)
   if(ENABLE_SHARED)
     install(TARGETS turbojpeg EXPORT ${CMAKE_PROJECT_NAME}Targets
